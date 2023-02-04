@@ -2,6 +2,7 @@ package entity;
 import main.GamePanel;
 import main.KeyHandler;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 
@@ -19,6 +20,9 @@ public class Player extends Entity{
         this.keyH = keyH;
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle(8, 16, 26, 30); // Collision
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -53,23 +57,42 @@ public class Player extends Entity{
             if(keyH.upPressed == true)
             {
                 direction = "up";
-                worldY -= speed;
             }
             if(keyH.downPressed == true)
             {
                 direction = "down";
-                worldY += speed;
             }
             if(keyH.leftPressed == true)
             {
                 direction = "left";
-                worldX -= speed;
             }
             if(keyH.rightPressed == true)
             {
                 direction = "right";
-                worldX += speed;
             }
+            // Collision
+            CollisionOn = false;
+            gp.Checker.checkTile(this);
+
+            if(CollisionOn == false)
+            {
+                switch(direction)
+                {
+                    case "up":
+                        worldY -= speed;
+                        break;
+                    case "down":
+                        worldY += speed;
+                        break;
+                    case "left": 
+                        worldX -= speed;
+                        break;
+                    case "right":
+                        worldX += speed;
+                        break;
+                }
+            }
+
             spriteCounter++;
             if(spriteCounter > 17)
             {
