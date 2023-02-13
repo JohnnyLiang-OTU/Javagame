@@ -13,7 +13,7 @@ public class Player extends Entity{
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-    int hasKey = 0;
+    public int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH)
     {
@@ -126,13 +126,19 @@ public class Player extends Entity{
                 case "Item":
                     gp.obj[i] = null;
                     hasKey++;
+                    gp.ui.showMessage("Key found!");
                     break;
                 case "Door":
                     if(hasKey > 0)
                     {
                         hasKey--;
                         gp.obj[i] = null;
+                        gp.ui.showMessage("Door is open.");
                         break;
+                    }
+                    else
+                    {
+                        gp.ui.showMessage("Need Key.");
                     }
                     
 
